@@ -68,10 +68,17 @@ export const signup = async (req, res) => {
 };
 
 export const login = async (req, res) => {
+  console.log(req.body);
   try {
-    const { email, password } = loginSchema.parse(req.body);
+    const { email, password } = req.body;
 
-    const db = await connectToDatabase("HeartDB");
+    if (!email || !password) {
+      return res
+        .status(400)
+        .json({ message: "Email and password are required." });
+    }
+
+    const db = await connectToDatabase(process.env.DATABASE);
     const user = await db
       .collection(collecion.USERS_COLLECTIION)
       .findOne({ email });
@@ -93,9 +100,6 @@ export const login = async (req, res) => {
 
     res.status(200).json({ token, user: userWithoutPassword });
   } catch (err) {
-    if (err instanceof z.ZodError) {
-      return res.status(400).json({ errors: err.formErrors });
-    }
     console.error("Login Error:", err.message);
     res.status(500).json({ error: "Internal server error" });
   }
