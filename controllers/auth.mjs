@@ -8,12 +8,11 @@ import { signupSchema } from "../schema/authSchema.mjs";
 
 export const signup = async (req, res) => {
   try {
-
     const { name, email, password } = signupSchema.parse(req.body);
 
-    const db = await connectToDatabase("PERSONAL");
+    const db = await connectToDatabase(process.env.DATABASE);
     const user = await db
-      .collection(collecion.USER_COLLECTIION)
+      .collection(collecion.USERS_COLLECTIION)
       .findOne({ email });
 
     if (user) {
@@ -24,11 +23,36 @@ export const signup = async (req, res) => {
     const passwordHash = await bcrypt.hash(password, salt);
     const userId = uuidv7();
 
-    await db.collection(collecion.USER_COLLECTIION).insertOne({
+    await db.collection(collecion.USERS_COLLECTIION).insertOne({
       userId,
       name,
       email,
       password: passwordHash,
+      gender: "",
+      dob: "",
+      bio: "",
+      photos: [],
+      maritalStatus: "",
+      occupation: "",
+      location: {
+        city: "",
+        District: "",
+        State: "",
+        country: "",
+      },
+      caste: "",
+      Religion: "",
+      demands: "",
+      description: "",
+      contacts: {},
+      socialMediaLinks: {},
+      preferences: {
+        ageRange: [],
+        location: [],
+        interests: [],
+      },
+      likes: [],
+      proposal: [],
       isActive: true,
       createdAt: Date.now(),
     });
@@ -45,12 +69,11 @@ export const signup = async (req, res) => {
 
 export const login = async (req, res) => {
   try {
- 
     const { email, password } = loginSchema.parse(req.body);
 
-    const db = await connectToDatabase("PERSONAL");
+    const db = await connectToDatabase("HeartDB");
     const user = await db
-      .collection(collecion.USER_COLLECTIION)
+      .collection(collecion.USERS_COLLECTIION)
       .findOne({ email });
 
     if (!user) {

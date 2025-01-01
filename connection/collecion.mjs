@@ -1,6 +1,7 @@
 let collecion = {
-  USER_COLLECTIION: "users",
-
+  USERS_COLLECTIION: "users",
+  INTERACTIONS_COLLECTION: "interactions",
+  
 };
 
 
