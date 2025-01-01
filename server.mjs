@@ -27,7 +27,7 @@ dotenv.config();
   app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 
   // Set up routes
-  app.use("/user", userRoutes);
+  app.use("/users", userRoutes);
   app.use("/auth", authRoutes);
 
   // Start the server
