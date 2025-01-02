@@ -12,7 +12,7 @@ export const signup = async (req, res) => {
 
     const db = await connectToDatabase(process.env.DATABASE);
     const user = await db
-      .collection(collecion.USERS_COLLECTIION)
+      .collection(collecion.USERS_COLLECTION)
       .findOne({ email });
 
     if (user) {
@@ -23,7 +23,7 @@ export const signup = async (req, res) => {
     const passwordHash = await bcrypt.hash(password, salt);
     const userId = uuidv7();
 
-    await db.collection(collecion.USERS_COLLECTIION).insertOne({
+    await db.collection(collecion.USERS_COLLECTION).insertOne({
       userId,
       name,
       email,
@@ -53,7 +53,12 @@ export const signup = async (req, res) => {
       },
       likes: [],
       proposal: [],
-      isActive: true,
+      isLookingForMatch: false,
+      reportStatus: {
+        isReported: false,
+        reportCount: 0,
+        reports: [],
+      },
       createdAt: Date.now(),
     });
 
@@ -80,7 +85,7 @@ export const login = async (req, res) => {
 
     const db = await connectToDatabase(process.env.DATABASE);
     const user = await db
-      .collection(collecion.USERS_COLLECTIION)
+      .collection(collecion.USERS_COLLECTION)
       .findOne({ email });
 
     if (!user) {

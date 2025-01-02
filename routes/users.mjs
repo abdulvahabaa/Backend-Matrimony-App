@@ -5,7 +5,7 @@ import {
   getUser,
   reportProfile,
   updateUserData,
-} from "../controllers/userData.mjs";
+} from "../controllers/usersController.mjs";
 
 const usersRoutes = express.Router({ mergeParams: true });
 

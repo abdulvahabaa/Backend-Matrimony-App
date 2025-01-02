@@ -5,33 +5,36 @@ import helmet from "helmet";
 import bodyParser from "body-parser";
 import usersRoutes from "./routes/users.mjs";
 import authRoutes from "./routes/auth.mjs";
+import matchmakingRoutes from "./routes/matchmaking.mjs";
 
 dotenv.config();
 
-  const app = express();
-  const PORT = process.env.PORT || 3000;
+const app = express();
+const PORT = process.env.PORT || 3000;
 
-  // Apply middlewares
-  app.use(express.json());
-  app.use(express.urlencoded({ extended: true }));  
-  app.use(helmet());
-  app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
-  
-  const corsOptions = {
-    origin: process.env.CORS_ORIGIN || "http://localhost:9000",
-    methods: ["GET", "POST", "PUT", "PATCH", "OPTIONS"],
-  };
-  app.use(cors(corsOptions));
+// Apply middlewares
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(helmet());
+app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 
-  app.use(bodyParser.json({ limit: "30mb", extended: true }));
-  app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
+const corsOptions = {
+  origin: process.env.CORS_ORIGIN || "http://localhost:9000",
+  methods: ["GET", "POST", "PUT", "PATCH", "OPTIONS"],
+};
+app.use(cors(corsOptions));
 
-  // Set up routes
-  app.use("/auth", authRoutes);
-  app.use("/users", usersRoutes);
+app.use(bodyParser.json({ limit: "30mb", extended: true }));
+app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 
-  // Start the server
-  app.listen(PORT, () => {
-    console.log(`Process ID ${process.pid}: Server running on PORT ${PORT} in Dev Mode`);
-  });
+// Set up routes
+app.use("/auth", authRoutes);
+app.use("/users", usersRoutes);
+app.use("/matchmaking", matchmakingRoutes);
 
+// Start the server
+app.listen(PORT, () => {
+  console.log(
+    `Process ID ${process.pid}: Server running on PORT ${PORT} in Dev Mode`
+  );
+});
