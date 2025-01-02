@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 import helmet from "helmet";
 import bodyParser from "body-parser";
-import userRoutes from "./routes/users.mjs";
+import usersRoutes from "./routes/users.mjs";
 import authRoutes from "./routes/auth.mjs";
 
 dotenv.config();
@@ -27,8 +27,8 @@ dotenv.config();
   app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 
   // Set up routes
-  app.use("/users", userRoutes);
   app.use("/auth", authRoutes);
+  app.use("/users", usersRoutes);
 
   // Start the server
   app.listen(PORT, () => {

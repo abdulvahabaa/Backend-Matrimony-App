@@ -1,11 +1,20 @@
 import express from "express";
 import { verifyToken } from "../middleware/verifyToken.mjs";
-import { getUser } from "../controllers/userData.mjs";
+import {
+  deleteProfile,
+  getUser,
+  reportProfile,
+  updateUserData,
+} from "../controllers/userData.mjs";
 
-const userRoutes = express.Router({ mergeParams: true });
+const usersRoutes = express.Router({ mergeParams: true });
 
-userRoutes.get("/:id", getUser);
+usersRoutes.get("/:id", getUser);
 
-// userRoutes.get("/:id", verifyToken, getUser);
+usersRoutes.post("/:id/report", reportProfile);
 
-export default userRoutes;
+usersRoutes.patch("/:id", updateUserData);
+
+usersRoutes.delete("/:id", deleteProfile);
+
+export default usersRoutes;
