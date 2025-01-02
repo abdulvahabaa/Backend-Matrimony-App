@@ -31,6 +31,7 @@ app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use("/auth", authRoutes);
 app.use("/users", usersRoutes);
 app.use("/matchmaking", matchmakingRoutes);
+app.use("/admin", adminRoutes);
 
 // Start the server
 app.listen(PORT, () => {
